@@ -1,0 +1,3 @@
+18.02.2015 16:07:01 Dienst wurde erfolgreich gestartet.
+18.02.2015 19:30:31 Statusabfrage: Alles in Ordnung!
+18.02.2015 22:47:13 Dienst wurde erfolgreich beendet.
