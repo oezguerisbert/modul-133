@@ -1,4 +1,5 @@
 <?php
+    session_start();
     include_once './incs/createServices.func.inc.php';
 
     $background = "https://images.unsplash.com/photo-1486072889922-9aea1fc0a34d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80";
@@ -20,13 +21,24 @@
         <div class="col pt-4 pb-4">
             <div class="row pl-3 pr-3 d-flex">
                 <h1>KXI</h1>
-                <a href="./login.php" class="btn btn-primary ml-auto  align-self-end">Login</a>
+                <?php if(!isset($_SESSION['userid'])){
+                    ?>
+                    <a href="./login.php" class="btn btn-primary ml-auto align-self-end">Login</a>
+                    <?php
+                }else {
+                    ?>
+                    <a href="./logout.php" class="btn btn-primary ml-auto align-self-end">Logout</a>
+                    <?php
+                }
+                
+                ?> 
+                
             </div>
             <h2>
                 Dein Ski-Service in den Alpen 😊⛷
             </h2>
             <br />
-            <img src="<?php echo $background; ?>" class="col p-0 br-2 rounded" />
+            <img src="<?php echo $background; ?>" class="col p-0 br-2 rounded h-50" />
             <h3 class="pt-4">
                 Über uns
             </h3>

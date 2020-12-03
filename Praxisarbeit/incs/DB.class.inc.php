@@ -32,15 +32,31 @@
 
         public static function createUser(array $useroptions){
             return DB::insert(
-                "INSERT INTO user(vorname, nachname, phone, email) VALUE(:vorname, :nachname, :phone, :email)",
+                "INSERT INTO users(username, vorname, nachname, phone, email, password) VALUE(:username, :vorname, :nachname, :phone, :email, :password)",
                 $useroptions
             );
         }
 
+        public static function getUsers(){
+            $stmt = DB::stmt(
+                "SELECT * FROM users where usertype = :usertype;"
+            );
+            $stmt->execute(array("usertype" => "moderator"));
+            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $users;
+        }
+        public static function checkLogin(array $userdata){
+            $stmt = DB::stmt(
+                "SELECT * FROM users where username = :username AND password = :password LIMIT 1;"
+            );
+            $stmt->execute($userdata);
+            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $users[0];
+        }
         private static function getUserID(string $vorname, string $nachname, string $email, string $phone){
             $useroptions = array("vorname" => $vorname, "nachname" => $nachname, "email" => $email, "phone" => $phone);
             $stmt = DB::stmt(
-                "SELECT * FROM user where vorname = :vorname and nachname = :nachname and email = :email and phone = :phone;"
+                "SELECT * FROM users where vorname = :vorname and nachname = :nachname and email = :email and phone = :phone;"
             );
             $stmt->execute($useroptions);
             $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
