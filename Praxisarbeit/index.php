@@ -18,7 +18,10 @@
 <body>
     <div class="container">
         <div class="col pt-4 pb-4">
-        <h1>KXI</h1>
+            <div class="row pl-3 pr-3 d-flex">
+                <h1>KXI</h1>
+                <a href="./login.php" class="btn btn-primary ml-auto  align-self-end">Login</a>
+            </div>
             <h2>
                 Dein Ski-Service in den Alpen 😊⛷
             </h2>
@@ -28,7 +31,7 @@
                 Über uns
             </h3>
             <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut asperiores tempora maxime obcaecati iste voluptatem, provident sapiente nam eius perferendis a deserunt eveniet! Inventore, quod et eveniet doloremque illum incidunt.</p>
-            <div class="row">
+            <div class="row row-cols-3 justify-content-around">
                 <?php
                     $services = array(
                         array(
@@ -36,42 +39,42 @@
                             "description" => "Unser kleiner Service beinhaltet die einfachen Einstellungen",
                             "price"=> "50.00 CHF",
                             "image" => "https://images.unsplash.com/photo-1519049069275-dea996e1a314?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=375&q=80",
-                            "cardLink" => "kleiner-service"
+                            "cardLink" => "klein"
                         ),
                         array(
                             "title"=> "Großer Service",
                             "description" => "Unser grosser Service beinhaltet alle Einstellungen",
                             "price"=> "70.00 CHF",
                             "image" => "https://images.unsplash.com/photo-1519049069275-dea996e1a314?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=375&q=80",
-                            "cardLink" => "grosser-service"
+                            "cardLink" => "gross"
                         ),
                         array(
                             "title"=> "Rennski-Service",
                             "description" => "Das Komplettpacket",
                             "price"=> "150.00 CHF",
                             "image" => "https://images.unsplash.com/photo-1519049069275-dea996e1a314?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=375&q=80",
-                            "cardLink" => "rennski-service"
+                            "cardLink" => "rennski"
                         ),
                         array(
                             "title"=> "Bindung montieren und einstellen",
                             "description" => "Die Bindung aller Verbindungen",
                             "price"=> "20.00 CHF",
                             "image" => "https://images.unsplash.com/photo-1519049069275-dea996e1a314?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=375&q=80",
-                            "cardLink" => "montage-service"
+                            "cardLink" => "montage"
                         ),
                         array(
                             "title"=> "Fell zuschneiden",
                             "description" => "Das zuschneiden des Fells für das perfekte Feeling",
                             "price"=> "15.00 CHF",
                             "image" => "https://images.unsplash.com/photo-1519049069275-dea996e1a314?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=375&q=80",
-                            "cardLink" => "fell-service"
+                            "cardLink" => "fell"
                         ),
                         array(
                             "title"=> "Heisswachsen",
                             "description" => "Mit hochprofessionellem Wachs wird ihr Equipment versorgt",
                             "price"=> "15.00 CHF",
                             "image" => "https://images.unsplash.com/photo-1519049069275-dea996e1a314?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=375&q=80",
-                            "cardLink" => "wachs-service"
+                            "cardLink" => "wachs"
                         ),
                     );
                     echo createServices($services);

@@ -1,18 +1,19 @@
 <?php
     class DB {
-        private static $_servername = "localhost";
-        private static $_username = "root";
-        private static $_password = "";
-        private static $_name = "modul307";
+        private static $_servername = "172.26.0.3";
+        private static $_username = "admin";
+        private static $_password = "admin";
+        private static $_name = "modul133";
         private static $_conn = null;
         private static function connection(){
             if(DB::$_conn === null){
                 try {
-                    $_conn = new PDO("mysql:host=".DB::$_servername.";dbname=".DB::$_name."", DB::$_username, DB::$_password);
+                    $_conn = new PDO("mysql:host=".DB::$_servername.";port=3306;dbname=".DB::$_name."", DB::$_username, DB::$_password);
                     // set the PDO error mode to exception
                     $_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    $_conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
                     DB::$_conn = $_conn;
-                    } catch(PDOException $e) {
+                } catch(PDOException $e) {
                     echo "Connection failed: " . $e->getMessage();
                 }
             }
