@@ -1,10 +1,10 @@
 <?php
     session_start();
-    include_once './incs/createUsers.func.inc.php';
     include_once './incs/createAlert.func.inc.php';
     include_once './incs/checkInput.func.inc.php';
+    include_once './incs/createInput.func.inc.php';
     include_once './incs/DB.class.inc.php';
-    $users = DB::getUsers();
+
     if($_SERVER['REQUEST_METHOD'] === "POST"){
         $data = array(
             "username" => $_POST['username'],
@@ -35,25 +35,31 @@
     <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-    <div class="container">
-        <div class="col vw-100">
-            <div class="row row-cols-3 p-3">
+    <div class="container pt-5">
+        <div class="col-md-6 m-auto">
+            
+            <div class="col ">
                 <?php
                     if(isset($data_errors) && sizeof($data_errors) > 0) {
                         echo createAlert("warning", "Opps!", $data_errors);
                     }
                 ?>
             </div>
-            <div class="row p-3">
-                <div class="col d-flex">
-                    
-                    <?= createUsers($users); ?>
+            <div class="col">
+            <form class="col align-items-center" action="login.php" method="POST">
+                <?= createInput("username", $_POST['username'] ?? "", "text", null, true); ?>
+                <?= createInput("password", $_POST['password'] ?? "", "password", null, true); ?>
+                <div class="col d-flex p-0">
+                    <button type="submit" class="btn ml-auto btn-primary">Login</button>
                 </div>
+                <div class="col d-flex p-0 mt-3">
+                    <a href="index.php" class="btn btn-secondary">Back to Front</a>
+                    <a href="register.php" class="btn ml-2 mr-auto btn-success">Register</a>
+                </div>
+            </form>
             </div>
             
         </div>
-        <a href="index.php" class="btn btn-secondary">Back to Front</a>
-        
     </div>
 </body>
 </html>

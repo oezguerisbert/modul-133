@@ -61,10 +61,12 @@
                 <?= createInput("phone", (isset($data_ok) && !$data_ok) ? $data["phone"] : "", "phone", "Ihre Telefonnummer wird nicht weitergegeben.", true); ?>
                 <?= createInput("email", (isset($data_ok) && !$data_ok) ? $data["email"] : "", "email", "Ihre E-Mail wird nicht weitergegeben.", true); ?>
                 <?= createInput("password", (isset($data_ok) && !$data_ok) ? $data["password"] : "", "password", null, true); ?>
-                <button type="submit" class="btn btn-primary align-self-end">Register</button>
+                <div class="col d-flex p-0 mt-3">
+                    <a href="index.php" class="btn btn-secondary">Back to Front</a>
+                    <button type="submit" class="btn btn-primary ml-auto align-self-end">Register & Login</button>
+                </div>
             </form>
         </div>
-        <a href="index.php" class="btn btn-secondary">Back to Front</a>
     </div>
 </body>
 </html>
