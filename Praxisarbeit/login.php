@@ -5,6 +5,7 @@ include_once './incs/checkInput.func.inc.php';
 include_once './incs/createInput.func.inc.php';
 include_once './repositories/User.repo.php';
 include_once './classes/DB.class.php';
+$login_blocked = false;
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $data = array(
@@ -20,10 +21,19 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         } else {
             $data_errors = array("password" => "Please retry, user/password wrong.");
             $_SESSION['loginattempts'] = isset($_SESSION['loginattempts']) ? $_SESSION['loginattempts'] + 1 : 1;
-            $_SESSION['lastattempt'] = strtotime("now");
-            if ($_SESSION['loginattempts'] >= 3) {
+            if (!isset($_SESSION['lastloginattempt'])) {
                 $data_errors = array("blockout" => "You tried to login too many times. Take a break!");
+            } else {
+                if ($_SESSION['loginattempts'] >= 3 && strtotime("now") - $_SESSION['lastloginattempt'] <= 50) {
+                    $data_errors = array("blockout" => "You are blocked from logging in!");
+                    $login_blocked = true;
+                } else {
+
+                    $_SESSION['loginattempts'] = 0;
+                }
             }
+            $_SESSION['lastloginattempt'] = strtotime("now");
+
         }
     }
 
@@ -48,8 +58,8 @@ include './incs/bootstrap.head.inc.php';
             <div class="col ">
                 <?php
 if (isset($data_errors) && sizeof($data_errors) > 0) {
-    if ($_SESSION['loginattempts'] < 3) {
-        echo createAlert("warning", "Opps!", $data_errors);
+    if ($_SESSION['loginattempts'] < 3 && !$login_blocked) {
+        echo createAlert("warning", "😱 Something went wrong!", $data_errors);
     } else {
         echo createAlert("danger", "😠", $data_errors);
 
@@ -57,19 +67,25 @@ if (isset($data_errors) && sizeof($data_errors) > 0) {
 }
 ?>
             </div>
-            <div class="col">
-            <form class="col align-items-center" action="login.php" method="POST">
-                <?=createInput("username", $_POST['username'] ?? "", "text", null, true);?>
-                <?=createInput("password", $_POST['password'] ?? "", "password", null, true);?>
-                <div class="col d-flex p-0">
-                    <button type="submit" class="btn ml-auto btn-primary">Login</button>
-                </div>
-                <div class="col d-flex p-0 mt-3">
-                    <a href="index.php" class="btn btn-secondary">Back to Front</a>
-                    <a href="register.php" class="btn ml-2 mr-auto btn-success">Register</a>
-                </div>
-            </form>
-            </div>
+            <?php
+if (isset($login_blocked) && !$login_blocked) {
+    ?>
+<div class="col">
+<form class="col align-items-center" action="login.php" method="POST">
+    <?=createInput("username", $_POST['username'] ?? "", "text", null, true);?>
+    <?=createInput("password", $_POST['password'] ?? "", "password", null, true);?>
+    <div class="col d-flex p-0">
+        <button type="submit" class="btn ml-auto btn-primary">Login</button>
+    </div>
+    <div class="col d-flex p-0 mt-3">
+        <a href="index.php" class="btn btn-secondary">Back to Front</a>
+        <a href="register.php" class="btn ml-2 mr-auto btn-success">Register</a>
+    </div>
+</form>
+</div>
+<?php
+}
+?>
 
         </div>
     </div>
