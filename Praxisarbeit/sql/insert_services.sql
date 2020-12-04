@@ -7,12 +7,3 @@ INSERT INTO `kxi_services`(`kuerzel`, `title`, `price`, `description`)
     ("fell", "Fell zuschneiden", 15.00, "Das zuschneiden des Fells für das perfekte Feeling"),
     ("wachs", "Heisswachsen", 15.00, "Mit hochprofessionellem Wachs wird ihr Equipment versorgt")
     ;
-
-INSERT INTO `kxi_priorities`(`kuerzel`, `title`, `days`)
-    VALUES
-    ("standart", "Standart", 7),
-    ("tief", "Standart", 12),
-    ("express", "Standart", 5);
-INSERT INTO `users`(`username`, `vorname`, `nachname`, `email`, `phone`, `password`, `usertype`)
-	VALUES
-	("oezguer_isbert", "Oezguer", "Isbert", "oezguer.isbert@student.ibz.ch", "000012312", "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918", "admin");

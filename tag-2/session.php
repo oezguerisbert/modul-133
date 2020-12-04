@@ -1,5 +1,5 @@
 <?php
-session_name('MeineSitzung');
+// session_name('MeineSitzung');
 session_start();
 
 // Logout
@@ -7,8 +7,8 @@ session_start();
 $_SESSION = array();
 session_destroy();
 exit();
-*/
-
+ */
+echo "<pre>";
 // Wo werden die Sessiondaten gespeichert
 var_dump(session_save_path());
 echo "Session name: " . session_name();
@@ -27,4 +27,3 @@ echo "</pre>";
 echo "<pre>";
 print_r($_COOKIE);
 echo "</pre>";
-?>
