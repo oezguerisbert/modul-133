@@ -25,17 +25,16 @@ include './incs/bootstrap.head.inc.php';
 <?php
 if (!isset($_SESSION['userid'])) {
     ?>
-    <a href="./login.php" class="btn btn-primary ml-auto align-self-end">Login</a>
+    <a href="./login.php" class="fas fa-sign-in-alt fa-2x ml-auto align-self-end text-decoration-none"></a>
     <?php
 } else {
     $usertype = DB::getUser($_SESSION['userid'])->getUsertype();
     $ml = "ml-auto";
     if (in_array($usertype, array("moderator", "admin"))) {
-        echo "<a href=\"./dashboard.php\" class=\"btn btn-secondary ml-auto align-self-end\">Dashboard</a>";
-        $ml = "ml-2";
+        echo "<a href=\"./dashboard.php\" class=\"fas fa-compass fa-2x ml-auto align-self-end text-decoration-none\"></a>";
+        $ml = "ml-3";
     }
-
-    echo "<a href=\"./logout.php\" class=\"btn btn-primary $ml align-self-end\">Logout</a>";
+    echo "<a href=\"./logout.php\" class=\"fas fa-sign-out-alt fa-2x $ml align-self-end text-decoration-none\"></a>";
 
 }
 ?>
