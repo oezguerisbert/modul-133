@@ -58,6 +58,17 @@ class DB
         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $users;
     }
+    public static function getUser(int $userid)
+    {
+        $stmt = DB::stmt(
+            "SELECT * FROM users where id = :userid LIMIT 1;"
+        );
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+
+        $stmt->execute(array("userid" => $userid));
+        $user = $stmt->fetch();
+        return $user;
+    }
 
     public static function checkLogin(array $userdata)
     {

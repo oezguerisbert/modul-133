@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $user = DB::checkLogin($data);
         if ($user) {
             $_SESSION['userid'] = $user->getID();
-            header("Location: ./");
+            header("Location: ./" . ($_GET['redirect'] ?? ""));
         } else {
             $data_errors = array("password" => "Please retry, wrong password.");
         }

@@ -33,4 +33,8 @@ class User
     {
         return $this->phone;
     }
+    public function getUsertype()
+    {
+        return $this->usertype;
+    }
 }

@@ -28,9 +28,15 @@ if (!isset($_SESSION['userid'])) {
     <a href="./login.php" class="btn btn-primary ml-auto align-self-end">Login</a>
     <?php
 } else {
-    ?>
-    <a href="./logout.php" class="btn btn-primary ml-auto align-self-end">Logout</a>
-    <?php
+    $usertype = DB::getUser($_SESSION['userid'])->getUsertype();
+    $ml = "ml-auto";
+    if (in_array($usertype, array("moderator", "admin"))) {
+        echo "<a href=\"./dashboard.php\" class=\"btn btn-secondary ml-auto align-self-end\">Dashboard</a>";
+        $ml = "ml-2";
+    }
+
+    echo "<a href=\"./logout.php\" class=\"btn btn-primary $ml align-self-end\">Logout</a>";
+
 }
 ?>
 
