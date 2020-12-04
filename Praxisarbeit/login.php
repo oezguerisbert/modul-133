@@ -3,6 +3,7 @@ session_start();
 include_once './incs/createAlert.func.inc.php';
 include_once './incs/checkInput.func.inc.php';
 include_once './incs/createInput.func.inc.php';
+include_once './repositories/User.repo.php';
 include_once './classes/DB.class.php';
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
@@ -12,14 +13,20 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     );
     $data_errors = checkInput($data);
     if (sizeof($data_errors) == 0) {
-        $user = DB::checkLogin($data);
+        $user = UserRepository::checkLogin($data);
         if ($user) {
             $_SESSION['userid'] = $user->getID();
             header("Location: ./" . ($_GET['redirect'] ?? ""));
         } else {
-            $data_errors = array("password" => "Please retry, wrong password.");
+            $data_errors = array("password" => "Please retry, user/password wrong.");
+            $_SESSION['loginattempts'] = isset($_SESSION['loginattempts']) ? $_SESSION['loginattempts'] + 1 : 1;
+            $_SESSION['lastattempt'] = strtotime("now");
+            if ($_SESSION['loginattempts'] >= 3) {
+                $data_errors = array("blockout" => "You tried to login too many times. Take a break!");
+            }
         }
     }
+
 }
 ?>
 
@@ -41,7 +48,12 @@ include './incs/bootstrap.head.inc.php';
             <div class="col ">
                 <?php
 if (isset($data_errors) && sizeof($data_errors) > 0) {
-    echo createAlert("warning", "Opps!", $data_errors);
+    if ($_SESSION['loginattempts'] < 3) {
+        echo createAlert("warning", "Opps!", $data_errors);
+    } else {
+        echo createAlert("danger", "😠", $data_errors);
+
+    }
 }
 ?>
             </div>

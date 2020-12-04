@@ -9,7 +9,8 @@
   </thead>
   <tbody>
     <?php
-$auftraege = DB::getAuftraege();
+require_once './repositories/Auftraege.repo.php';
+$auftraege = AuftraegeRepository::findAll();
 foreach ($auftraege as $key => $auftrag) {
     echo $auftrag->toRow();
 }

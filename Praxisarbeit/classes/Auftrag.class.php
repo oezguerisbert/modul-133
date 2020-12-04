@@ -1,8 +1,8 @@
 <?php
-// include "User.class.php";
-// include "Service.class.php";
-// include "Priority.class.php";
-// include "DB.class.php";
+require_once "./repositories/User.repo.php";
+require_once "./repositories/Service.repo.php";
+require_once "./repositories/Priority.repo.php";
+// require_once "../repositories/Auftrag.repo.php";
 class Auftrag
 {
     private $id;
@@ -16,23 +16,24 @@ class Auftrag
     }
     public function getUser(): User
     {
-        return DB::getUser($this->userid);
+        return UserRepository::find($this->userid);
     }
     public function getPriority(): Priority
     {
-        return DB::getPriority($this->prioid);
+        return PriorityRepository::find($this->prioid);
     }
     public function getService(): Service
     {
-        return DB::getServiceByID($this->serviceid);
+        return ServiceRepository::find($this->serviceid);
     }
     public function toRow()
     {
-        return "<tr>
-            <th scope=\"row\">" . $this->getID() . "</th>
-            <td>" . $this->getUser()->getUsername() . "</td>
-            <td>" . $this->getService()->getTitle() . "</td>
-            <td>" . $this->getPriority()->getKuerzel() . "</td>
-        </tr>";
+        return "
+            <tr style=\"cursor: pointer;\" onclick=\"window.open('./auftrag.php?id=" . $this->getID() . "')\">
+                <th scope=\"row\">" . $this->getID() . "</th>
+                <td>" . $this->getUser()->getUsername() . "</td>
+                <td>" . $this->getService()->getTitle() . "</td>
+                <td>" . $this->getPriority()->getKuerzel() . "</td>
+            </tr>";
     }
 }

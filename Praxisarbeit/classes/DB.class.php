@@ -1,8 +1,6 @@
 <?php
-include "./classes/Auftrag.class.php";
-include "./classes/User.class.php";
-include "./classes/Service.class.php";
-include "./classes/Priority.class.php";
+require_once "./repositories/Service.repo.php";
+require_once "./repositories/Priority.repo.php";
 class DB
 {
     private static $_servername = "localhost";
@@ -30,62 +28,16 @@ class DB
         return DB::$_conn;
     }
 
-    private static function stmt(string $sql)
+    protected static function stmt(string $sql)
     {
         $conn = DB::connection();
         $stmt = $conn->prepare($sql);
         return $stmt;
     }
 
-    private static function insert(string $sql, array $array)
+    protected static function insert(string $sql, array $array)
     {
         return DB::stmt($sql)->execute($array);
-    }
-
-    public static function createUser(array $useroptions)
-    {
-        return DB::insert(
-            "INSERT INTO users(username, vorname, nachname, phone, email, password) VALUE(:username, :vorname, :nachname, :phone, :email, :password)",
-            $useroptions
-        );
-    }
-
-    public static function getUsers()
-    {
-        $stmt = DB::stmt(
-            "SELECT * FROM users where usertype = :usertype;"
-        );
-        $stmt->execute(array("usertype" => "moderator"));
-        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $users;
-    }
-    public static function getUser(int $userid)
-    {
-        $stmt = DB::stmt(
-            "SELECT * FROM users where id = :userid LIMIT 1;"
-        );
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
-
-        $stmt->execute(array("userid" => $userid));
-        $user = $stmt->fetch();
-        return $user;
-    }
-    public static function getAuftraege()
-    {
-        $stmt = DB::stmt("SELECT * FROM kxi_auftraege;");
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Auftrag');
-        $stmt->execute();
-        return $stmt->fetchAll();
-    }
-    public static function checkLogin(array $userdata)
-    {
-        $stmt = DB::stmt(
-            "SELECT * FROM users where username = :username AND password = :password LIMIT 1;"
-        );
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
-        $stmt->execute($userdata);
-        $user = $stmt->fetch();
-        return $user;
     }
 
     public static function addService(array $information)
@@ -94,66 +46,10 @@ class DB
             "INSERT INTO kxi_auftraege(prioid, serviceid, userid)
             VALUE(:prioid, :serviceid, :uid)",
             array(
-                "serviceid" => DB::getServiceID($information['service']),
-                "prioid" => DB::getPriorityID($information['priority']),
+                "serviceid" => ServiceRepository::findByKuerzel($information['service'])->getID(),
+                "prioid" => PriorityRepository::findByKuerzel($information['priority'])->getID(),
                 "uid" => $information['userid'])
         );
-    }
-
-    public static function getServices()
-    {
-        $stmt = DB::stmt("SELECT * FROM kxi_services;");
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Service');
-        $stmt->execute();
-        return $stmt->fetchAll();
-    }
-
-    public static function getService(string $kuerzel)
-    {
-        $stmt = DB::stmt("SELECT * FROM kxi_services WHERE kuerzel = :kuerzel LIMIT 1;");
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Service');
-        $stmt->execute(array("kuerzel" => $kuerzel));
-        return $stmt->fetch();
-    }
-    public static function getServiceByID(int $id)
-    {
-        $stmt = DB::stmt("SELECT * FROM kxi_services WHERE id = :id LIMIT 1;");
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Service');
-        $stmt->execute(array("id" => $id));
-        return $stmt->fetch();
-    }
-    public static function getPriorityByKuerzel(string $kuerzel)
-    {
-        $stmt = DB::stmt("SELECT * FROM kxi_priorities WHERE kuerzel = :kuerzel LIMIT 1;");
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Priority');
-        $stmt->execute(array("kuerzel" => $kuerzel));
-        return $stmt->fetch();
-    }
-    public static function getPriorities()
-    {
-        $stmt = DB::stmt("SELECT * FROM kxi_priorities;");
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Priority');
-        $stmt->execute(array("id" => $id));
-        return $stmt->fetchAll();
-    }
-    public static function getPriority(string $id)
-    {
-        $stmt = DB::stmt("SELECT * FROM kxi_priorities WHERE id = :id LIMIT 1;");
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Priority');
-        $stmt->execute(array("id" => $id));
-        return $stmt->fetch();
-    }
-    public static function getServiceID(string $kuerzel)
-    {
-
-        return DB::getService($kuerzel)->getID();
-    }
-    public static function getPriorityID(string $kuerzel)
-    {
-        $stmt = DB::stmt("SELECT * FROM kxi_priorities where kuerzel = :kuerzel LIMIT 1;");
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Priority');
-        $stmt->execute(array("kuerzel" => $kuerzel));
-        return $stmt->fetch()->getID();
     }
 
 }

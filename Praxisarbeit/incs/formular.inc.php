@@ -1,11 +1,13 @@
 <?php
 session_start();
-include './incs/createInput.func.inc.php';
-include './incs/createPriorities.func.inc.php';
-include './incs/createAlert.func.inc.php';
-include './incs/checkInput.func.inc.php';
-include './incs/getPrioDays.func.inc.php';
-include './classes/DB.class.php';
+require_once './incs/createInput.func.inc.php';
+require_once './incs/createPriorities.func.inc.php';
+require_once './incs/createAlert.func.inc.php';
+require_once './incs/checkInput.func.inc.php';
+require_once './incs/getPrioDays.func.inc.php';
+require_once './repositories/Service.repo.php';
+require_once './repositories/Priority.repo.php';
+require_once './classes/DB.class.php';
 
 if (isset($_SESSION['userid'])) {
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -41,11 +43,11 @@ include './incs/bootstrap.head.inc.php';
                     <h1>
                         Service-Formular
                         <br />
-                        <span class="badge badge-primary"><?=DB::getService($service)->getTitle()?></span>
+                        <span class="badge badge-primary"><?=ServiceRepository::findByKuerzel($service)->getTitle()?></span>
                         <?php
 if (isset($prio)) {
     ?>
-        <span class="badge badge-secondary"><?=DB::getPriorityByKuerzel($prio)->getTitle()?></span>
+        <span class="badge badge-secondary"><?=PriorityRepository::findByKuerzel($prio)->getTitle()?></span>
     <?php
 }
 
@@ -65,7 +67,7 @@ if (isset($db_query_result) && sizeof($errors) === 0) {
     ?>
                     <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
                         <h5>Wählen sie eine Priorität aus</h5>
-                        <?=createPriorities(array("Tief", "Standart", "Express"), isset($prio) ? $prio : "");?>
+                        <?=createPriorities(PriorityRepository::findAll(), isset($prio) ? $prio : "");?>
                         <br />
                         <div class="row">
                             <div class="col-lg-10">

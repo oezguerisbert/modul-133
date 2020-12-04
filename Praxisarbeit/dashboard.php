@@ -1,6 +1,5 @@
 <?php
 session_start();
-include_once './classes/DB.class.php';
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +25,8 @@ if (!isset($_SESSION['userid'])) {
     <a href="./login.php" class="fas fa-sign-in-alt fa-2x align-self-end  text-decoration-none"></a>
     <?php
 } else {
-    $usertype = DB::getUser($_SESSION['userid'])->getUsertype();
+    require './repositories/User.repo.php';
+    $usertype = UserRepository::find($_SESSION['userid'])->getUsertype();
     $ml = "ml-auto";
     if (in_array($usertype, array("moderator", "admin"))) {
         echo "<a href=\"./index.php\" class=\"fas fa-home fa-2x align-self-end text-decoration-none\"></a>";
