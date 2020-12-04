@@ -19,9 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!file_exists($filename)) {
         $handle = fopen($filename, "a+");
-        if(!$handle){
-            dd("Some Error Occured");
-        }
+
         $title = array("E-Mail", "Country", "Browser", "Programmierung", "Design", "Web");
         $values = array($email, $country, $explorer, $programmierung, $design, $web);
         $titleString = join(";", $title) . "\n";
