@@ -45,7 +45,7 @@ include './incs/bootstrap.head.inc.php';
                         <?php
 if (isset($prio)) {
     ?>
-        <span class="badge badge-secondary"><?=DB::getPriority($prio)->getTitle()?></span>
+        <span class="badge badge-secondary"><?=DB::getPriorityByKuerzel($prio)->getTitle()?></span>
     <?php
 }
 
