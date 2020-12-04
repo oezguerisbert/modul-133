@@ -1,16 +1,17 @@
 <?php
-    /**
-     * Crates a Bootstrap-Card
-     * 
-     * @param string $imageLink
-     * @param string $title
-     * @param string $description
-     * 
-     * @return string precreated card as html
-     */
-    function createCard(string $imageLink, string $title, string $description = "", string $buttonText = "Open", string $cardLink = ""){
+/**
+ * Crates a Bootstrap-Card
+ *
+ * @param string $imageLink
+ * @param string $title
+ * @param string $description
+ *
+ * @return string precreated card as html
+ */
+function createCard(string $imageLink, string $title, string $description = "", string $buttonText = "Open", string $cardLink = "")
+{
 
-        return "
+    return "
         <div class=\"col p-2\">
             <div class=\"card\">
                 <img src=\"$imageLink\" class=\"card-img-top\">
@@ -22,29 +23,26 @@
             </div>
         </div>
         ";
+}
+/**
+ * Crates a Service-Rows-Card
+ *
+ * @param array $array
+ *
+ * @return string precreated cards as html
+ */
+function createServices(array $services)
+{
+    $d = "";
+    foreach ($services as $key2 => $value) {
+        $d .= createCard(
+            $value->getImage(),
+            $value->getTitle(),
+            $value->getDescription(),
+            $value->getPrice() . " CHF",
+            $value->getKuerzel()
+        );
     }
-    /**
-     * Crates a Service-Rows-Card
-     * 
-     * @param array $array
-     * 
-     * @return string precreated cards as html
-     */
-    function createServices(array $services){
-        // $d = ;
-        $d = "";
-        $rows = 2;
-        foreach ($services as $key2 => $value) {
-            
-            $d .= createCard(
-                $value["image"],
-                $value["title"],
-                $value["description"],
-                $value["price"],
-                $value["cardLink"]
-            );
-        }
-        
-        return $d;
-    }
-?>
+
+    return $d;
+}
