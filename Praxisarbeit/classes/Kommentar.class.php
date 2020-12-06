@@ -30,12 +30,13 @@ class Kommentar
         return $this->addedAt;
     }
 
-    public function __toString(){
+    public function __toString()
+    {
         return "<div class='p-3 text-dark rounded mb-3' style='background-color:#ced5dc;'>
                     <span>{$this->getContent()}</span>
                     <br />
                     <br />
-                    <span>".strftime('%d. %b %Y , %H:%M', strtotime($this->getAddedAt()))." - <strong>@{$this->getUser()->getUsername()}</strong></span>
+                    <span><small>" . strftime('%d. %b %Y , %H:%M', strtotime($this->getAddedAt())) . " - <strong>@{$this->getUser()->getUsername()}</strong></small></span>
                 </div>";
     }
 }

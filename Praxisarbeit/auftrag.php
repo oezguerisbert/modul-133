@@ -5,25 +5,24 @@ require_once './classes/User.class.php';
 require_once './repositories/Auftraege.repo.php';
 require_once './repositories/Modus.repo.php';
 require_once './repositories/Kommentar.repo.php';
-if(!(isset($_SESSION['userid']) && isset($_GET['id']))){
+if (!(isset($_SESSION['userid']) && isset($_GET['id']))) {
     header("Location: ./");
-}else {
+} else {
     $user = UserRepository::find($_SESSION['userid']);
-    if(!$user || !(in_array($user->getUsertype(), User::getSupervisedUsertypes()))){
+    if (!$user || !(in_array($user->getUsertype(), User::getSupervisedUsertypes()))) {
         header("Location: ./");
     }
-    if(in_array($_GET['m'], ModusRepository::asArray("kuerzel"))){
+    if (isset($_GET['m']) && in_array($_GET['m'], ModusRepository::asArray("kuerzel"))) {
         AuftraegeRepository::updateModus($_GET['id'], $_GET['m']);
     }
-    if(isset($_GET['v'])){
+    if (isset($_GET['v'])) {
         $vMode = $_GET['v'] === "1" ? true : false;
         AuftraegeRepository::setVisibility($_GET['id'], $vMode);
     }
-    if(isset($_POST['comment'])){
-        KommentarRepository::create($_SESSION['userid'],$_GET['id'], $_POST['comment']);
+    if (isset($_POST['comment'])) {
+        KommentarRepository::create($_SESSION['userid'], $_GET['id'], $_POST['comment']);
     }
 }
-
 
 ?>
 
@@ -50,20 +49,20 @@ include './incs/bootstrap.head.inc.php';
             </div>
             <div class="row p-3 pt-5">
                 <?php
-                $auftrag = AuftraegeRepository::find($_GET['id']);
+$auftrag = AuftraegeRepository::find($_GET['id']);
 
-                if(!$auftrag) {
-                    echo "<div class=\"mt-5 col-md-12 p-4 vw-100 border bg-light rounded\" style=\"border-color:#bfc0c0;\">
+if (!$auftrag) {
+    echo "<div class=\"mt-5 col-md-12 p-4 vw-100 border bg-light rounded\" style=\"border-color:#bfc0c0;\">
                         <div class=\"p-2 text-center\" style=\"color:#7f7f7f;\">Dieser Auftrag existiert nicht.</div>
                     </div>";
-                }else {
-                    echo $auftrag;
-                }
-                ?>
+} else {
+    echo $auftrag;
+}
+?>
             </div>
         </div>
         <div class="modal" id="commentModal" tabindex="-1" role="dialog">
-            <form class="modal-dialog modal-dialog-centered" role="document" action="auftrag.php?id=<?= $_GET['id'];?>" METHOD="POST">
+            <form class="modal-dialog modal-dialog-centered" role="document" action="auftrag.php?id=<?=$_GET['id'];?>" METHOD="POST">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Kommentar hinzufügen</h5>
@@ -73,7 +72,7 @@ include './incs/bootstrap.head.inc.php';
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Auftragnummer</label>
+                            <label>Auftragnummer</label>
                             <input type="number" disabled class="form-control text-right" value="<?=$_GET['id'];?>"/>
                         </div>
                         <div class="form-group">
