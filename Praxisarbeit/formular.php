@@ -1,5 +1,7 @@
-<?php
+<?php 
 session_start();
+$service = $_GET['service'];
+include './incs/formular.inc.php';
 require_once './incs/createInput.func.inc.php';
 require_once './incs/createPriorities.func.inc.php';
 require_once './incs/createAlert.func.inc.php';
@@ -43,11 +45,11 @@ include './incs/bootstrap.head.inc.php';
                     <h1>
                         Service-Formular
                         <br />
-                        <span class="badge badge-primary"><?=ServiceRepository::findByKuerzel($service)->getTitle()?></span>
+                        <?=ServiceRepository::findByKuerzel($service) ?>
                         <?php
 if (isset($prio)) {
     ?>
-        <span class="badge badge-secondary"><?=PriorityRepository::findByKuerzel($prio)->getTitle()?></span>
+        <?=PriorityRepository::findByKuerzel($prio)?>
     <?php
 }
 
@@ -57,7 +59,7 @@ if (isset($prio)) {
                     <?php
 if (isset($db_query_result) && sizeof($errors) === 0) {
     echo createAlert($db_query_result, "✨ Perfekt!", array("Wir werden Sie am " . (date("d.m.Y", strtotime("+" . getPrioDays($prio) . " days"))) . " (in " . getPrioDays($prio) . " Tagen) kontaktieren."));
-    echo "<a class=\"btn btn-secondary\" href=\"javascript:document.location.href= '../';\">zurück</a>";
+    echo "<a class=\"btn btn-secondary\" href=\"javascript:document.location.href= './';\">zurück</a>";
 } else if (isset($errors) && sizeof($errors) > 0) {
     echo createAlert("warning", "Opps!", $errors);
 }

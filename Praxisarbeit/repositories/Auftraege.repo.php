@@ -9,7 +9,7 @@ class AuftraegeRepository extends DB
     private static $fetch_class = 'Auftrag';
     public static function findAll()
     {
-        $stmt = AuftraegeRepository::stmt("SELECT * FROM kxi_auftraege WHERE visible = 1;");
+        $stmt = AuftraegeRepository::stmt("SELECT * FROM kxi_auftraege WHERE visible = 1 ORDER BY prioid;");
         $stmt->setFetchMode(PDO::FETCH_CLASS, AuftraegeRepository::$fetch_class);
         $stmt->execute();
         return $stmt->fetchAll();

@@ -37,4 +37,7 @@ class Service
     {
         return $this->description;
     }
+    public function __toString(){
+        return "<span class='badge badge-primary'>{$this->getTitle()}</span>";
+    }
 }

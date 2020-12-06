@@ -30,7 +30,7 @@ class KommentarRepository extends DB
     {
         return UserRepository::insert(
             "INSERT INTO kxi_auftrag_kommentare(userid, auftragid, content) VALUE(:userid, :auftragid, :content)",
-            array("userid" => $userid, "auftragid" => $auftragid, "content" => $content)
+            array("userid" => $userid, "auftragid" => $auftragid, "content" => htmlspecialchars($content))
         );
     }
 }

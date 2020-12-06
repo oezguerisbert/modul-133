@@ -23,4 +23,7 @@ class Priority
     {
         return $this->days;
     }
+    public function __toString(){
+        return "<span class='badge badge-secondary ml-2'>{$this->getTitle()}</span>";
+    }
 }

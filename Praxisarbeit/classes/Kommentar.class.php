@@ -7,6 +7,7 @@ class Kommentar
     private $userid;
     private $auftragid;
     private $content;
+    private $addedAt;
 
     public function getID()
     {
@@ -24,5 +25,17 @@ class Kommentar
     {
         return $this->content;
     }
+    public function getAddedAt()
+    {
+        return $this->addedAt;
+    }
 
+    public function __toString(){
+        return "<div class='p-3 text-dark rounded mb-3' style='background-color:#ced5dc;'>
+                    <span>{$this->getContent()}</span>
+                    <br />
+                    <br />
+                    <span>".strftime('%d. %b %Y , %H:%M', strtotime($this->getAddedAt()))." - <strong>@{$this->getUser()->getUsername()}</strong></span>
+                </div>";
+    }
 }

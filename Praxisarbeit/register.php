@@ -15,18 +15,18 @@ $data = array(
 );
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    $data["username"] = $_POST['username'];
-    $data["vorname"] = $_POST['vorname'];
-    $data["nachname"] = $_POST['nachname'];
-    $data["email"] = $_POST['email'];
-    $data["phone"] = $_POST['phone'];
+    $data["username"] = htmlspecialchars($_POST['username']);
+    $data["vorname"] = htmlspecialchars($_POST['vorname']);
+    $data["nachname"] = htmlspecialchars($_POST['nachname']);
+    $data["email"] = htmlspecialchars($_POST['email']);
+    $data["phone"] = htmlspecialchars($_POST['phone']);
     $data["password"] = hash("sha256", $_POST['password']);
     $data_errors = checkInput($data);
     $data_ok = sizeof($data_errors) == 0;
 
     $db_query_result = UserRepository::create($data);
     if ($db_query_result) {
-        $_SESSION['userid'] = UserRepository::checkLogin(array("username" => $data['username'], "password" => $data['password']))->getID();
+        $_SESSION['userid'] = UserRepository::checkLogin(array("username" => htmlspecialchars($data['username']), "password" => $data['password']))->getID();
     }
 }
 

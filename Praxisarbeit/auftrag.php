@@ -19,6 +19,9 @@ if(!(isset($_SESSION['userid']) && isset($_GET['id']))){
         $vMode = $_GET['v'] === "1" ? true : false;
         AuftraegeRepository::setVisibility($_GET['id'], $vMode);
     }
+    if(isset($_POST['comment'])){
+        KommentarRepository::create($_SESSION['userid'],$_GET['id'], $_POST['comment']);
+    }
 }
 
 
@@ -54,10 +57,36 @@ include './incs/bootstrap.head.inc.php';
                         <div class=\"p-2 text-center\" style=\"color:#7f7f7f;\">Dieser Auftrag existiert nicht.</div>
                     </div>";
                 }else {
-                    echo $auftrag->toHTML();
+                    echo $auftrag;
                 }
                 ?>
             </div>
+        </div>
+        <div class="modal" id="commentModal" tabindex="-1" role="dialog">
+            <form class="modal-dialog modal-dialog-centered" role="document" action="auftrag.php?id=<?= $_GET['id'];?>" METHOD="POST">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Kommentar hinzufügen</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Auftragnummer</label>
+                            <input type="number" disabled class="form-control text-right" value="<?=$_GET['id'];?>"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="comment">Kommentartext</label>
+                            <textarea class="form-control" name="comment" rows="3" id="comment"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Senden</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </body>

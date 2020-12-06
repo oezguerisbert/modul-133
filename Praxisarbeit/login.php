@@ -79,7 +79,7 @@ if (isset($login_blocked) && !$login_blocked) {
     </div>
     <div class="col d-flex p-0 mt-3">
         <a href="index.php" class="btn btn-secondary">Back to Front</a>
-        <a href="register.php" class="btn ml-2 mr-auto btn-success">Register</a>
+        <a href="register.php<?php echo isset($_GET['redirect']) ? "?redirect=".$_GET['redirect'] : "";?>" class="btn ml-2 mr-auto btn-success">Register</a>
     </div>
 </form>
 </div>

@@ -18,7 +18,7 @@ function createCard(string $imageLink, string $title, string $description = "", 
                 <div class=\"card-body\" style=\"height:180px;\">
                     <h5 class=\"card-title\">$title</h5>
                     <p class=\"card-text\" style=\"height:50px;\">$description</p>
-                    <a href=\"./formular/?service=$cardLink\" class=\"btn btn-primary align-self-end\">$buttonText</a>
+                    <a href=\"./formular.php?service=$cardLink\" class=\"btn btn-primary align-self-end\">$buttonText</a>
                 </div>
             </div>
         </div>

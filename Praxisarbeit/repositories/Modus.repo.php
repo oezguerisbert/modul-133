@@ -32,7 +32,7 @@ class ModusRepository extends DB
         $modi = ModusRepository::findAll();
             foreach ($modi as $key => $modus) {
                 if(!empty(trim($filter))){
-                    $result[] = $modus->asArray()[$filter];
+                    $result[] = $modus->toArray()[$filter];
                 }else {
                     $result[] = $modus->getName();
                 }
