@@ -3,11 +3,13 @@ require_once "./repositories/Service.repo.php";
 require_once "./repositories/Priority.repo.php";
 class DB
 {
-    private static $_servername = "172.26.0.3";
-    private static $_username = "admin";
-    private static $_password = "admin";
+    private static $_servername = "localhost";
+    private static $_username = "root";
+    private static $_password = "";
     private static $_name = "modul133";
     private static $_conn = null;
+    private static $_migrated = false;
+    private static $_migrating = false;
 
     /**
      * Connection maker
@@ -21,11 +23,39 @@ class DB
                 $_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $_conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
                 DB::$_conn = $_conn;
+                if (!file_exists("./migration.lock")) {
+                    DB::$_migrated = DB::migrate();
+                    fclose(fopen("./migration.lock", "a+"));
+                }
             } catch (PDOException $e) {
                 echo "Connection failed: " . $e->getMessage();
             }
         }
         return DB::$_conn;
+    }
+
+    private static function migrate()
+    {
+        DB::$_migrating = true;
+
+        $sqls = array();
+        $sqls[] = file_get_contents("./sql/creates/database.sql");
+        $sqls[] = file_get_contents("./sql/bundle/services.sql");
+        $sqls[] = file_get_contents("./sql/bundle/priorities.sql");
+        $sqls[] = file_get_contents("./sql/bundle/auftrag_modus.sql");
+        $sqls[] = file_get_contents("./sql/bundle/auftraege_und_kommentare.sql");
+        $result = true;
+        foreach ($sqls as $key => $sql) {
+            $c = DB::connection();
+            $sqlResult = $c->exec($sql);
+            $result &= $sqlResult;
+        }
+        return $result;
+    }
+
+    public static function checkMigration()
+    {
+        return DB::migrate();
     }
 
     protected static function stmt(string $sql)

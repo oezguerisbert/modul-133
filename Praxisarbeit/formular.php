@@ -1,7 +1,6 @@
-<?php 
+<?php
 session_start();
 $service = $_GET['service'];
-include './incs/formular.inc.php';
 require_once './incs/createInput.func.inc.php';
 require_once './incs/createPriorities.func.inc.php';
 require_once './incs/createAlert.func.inc.php';
@@ -45,7 +44,7 @@ include './incs/bootstrap.head.inc.php';
                     <h1>
                         Service-Formular
                         <br />
-                        <?=ServiceRepository::findByKuerzel($service) ?>
+                        <?=ServiceRepository::findByKuerzel($service)?>
                         <?php
 if (isset($prio)) {
     ?>
