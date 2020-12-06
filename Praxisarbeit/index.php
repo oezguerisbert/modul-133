@@ -3,6 +3,7 @@ session_start();
 require_once './classes/DB.class.php';
 require_once './repositories/Service.repo.php';
 require_once './repositories/User.repo.php';
+require_once './classes/User.class.php';
 require_once './incs/createServices.func.inc.php';
 
 $background = "https://images.unsplash.com/photo-1486072889922-9aea1fc0a34d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80";
@@ -28,16 +29,22 @@ include './incs/bootstrap.head.inc.php';
 <?php
 if (!isset($_SESSION['userid'])) {
     ?>
-    <a href="./login.php" class="fas fa-sign-in-alt fa-2x align-self-end  text-decoration-none"></a>
+    <a href="./login.php" class="fas fa-sign-in-alt fa-2x align-self-end text-decoration-none"></a>
     <?php
 } else {
-    $usertype = UserRepository::find($_SESSION['userid'])->getUsertype();
-    $ml = "ml-auto";
-    if (in_array($usertype, array("moderator", "admin"))) {
-        echo "<a href=\"./dashboard.php\" class=\"fas fa-compass fa-2x align-self-end text-decoration-none\"></a>";
-        $ml = "ml-3";
+    $user = UserRepository::find($_SESSION['userid']);
+    if($user){
+        $usertype = $user->getUsertype();
+        $ml = "ml-auto";
+        if (in_array($usertype, User::getSupervisedUsertypes())) {
+            echo "<a href=\"./dashboard.php\" class=\"fas fa-compass fa-2x align-self-end text-decoration-none\"></a>";
+            $ml = "ml-3";
+        }
+        echo "<a href=\"./logout.php\" class=\"fas fa-sign-out-alt fa-2x $ml align-self-end text-decoration-none\"></a>";
+    }else {
+        echo "<a href=\"./login.php\" class=\"fas fa-sign-in-alt fa-2x align-self-end text-decoration-none\"></a>";
     }
-    echo "<a href=\"./logout.php\" class=\"fas fa-sign-out-alt fa-2x $ml align-self-end text-decoration-none\"></a>";
+    
 
 }
 ?>

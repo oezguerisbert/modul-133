@@ -4,7 +4,7 @@ session_start();
 include_once './incs/createInput.func.inc.php';
 include_once './incs/checkInput.func.inc.php';
 include_once './incs/createAlert.func.inc.php';
-include_once './classes/DB.class.php';
+include_once './repositories/User.repo.php';
 // $users = DB::getUsers();
 $data = array(
     "username" => null,
@@ -24,9 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $data_errors = checkInput($data);
     $data_ok = sizeof($data_errors) == 0;
 
-    $db_query_result = DB::createUser($data);
+    $db_query_result = UserRepository::create($data);
     if ($db_query_result) {
-        $_SESSION['userid'] = DB::checkLogin(array("username" => $data['username'], "password" => $data['password']))->getID();
+        $_SESSION['userid'] = UserRepository::checkLogin(array("username" => $data['username'], "password" => $data['password']))->getID();
     }
 }
 

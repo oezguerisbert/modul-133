@@ -37,4 +37,10 @@ class User
     {
         return $this->usertype;
     }
+    public static function getUsertypes(){
+        return array("user", "admin", "moderator");
+    }
+    public static function getSupervisedUsertypes(){
+        return array("admin", "moderator");
+    }
 }

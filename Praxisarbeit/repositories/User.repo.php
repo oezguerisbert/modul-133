@@ -11,7 +11,7 @@ class UserRepository extends DB
             "SELECT * FROM users where usertype = :usertype;"
         );
         $stmt->execute(array("usertype" => "moderator"));
-        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $users = $stmt->fetchAll(PDO::FETCH_CLASS, UserRepository::$fetch_class);
         return $users;
     }
     public static function find(int $userid)
@@ -19,7 +19,7 @@ class UserRepository extends DB
         $stmt = UserRepository::stmt(
             "SELECT * FROM users where id = :userid LIMIT 1;"
         );
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+        $stmt->setFetchMode(PDO::FETCH_CLASS, UserRepository::$fetch_class);
 
         $stmt->execute(array("userid" => $userid));
         $user = $stmt->fetch();
@@ -37,7 +37,7 @@ class UserRepository extends DB
         $stmt = DB::stmt(
             "SELECT * FROM users where username = :username AND password = :password LIMIT 1;"
         );
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+        $stmt->setFetchMode(PDO::FETCH_CLASS, UserRepository::$fetch_class);
         $stmt->execute($userdata);
         $user = $stmt->fetch();
         return $user;

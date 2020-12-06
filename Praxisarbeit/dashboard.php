@@ -1,5 +1,22 @@
 <?php
 session_start();
+require_once './repositories/User.repo.php';
+require_once './classes/User.class.php';
+require_once './repositories/Auftraege.repo.php';
+if(isset($_SESSION['userid'])){
+    $user = UserRepository::find($_SESSION['userid']);
+    if(!$user){
+        header("Location: ./login.php");
+    }
+    $usertype = $user->getUsertype();
+    if (!in_array($usertype, User::getSupervisedUsertypes())) {
+        header("Location: ./");
+    }
+    $auftraege = AuftraegeRepository::findAll();
+
+}else {
+    header("Location: ./");
+}
 ?>
 
 <!DOCTYPE html>
@@ -19,34 +36,45 @@ include './incs/bootstrap.head.inc.php';
             <div class="row pl-3 pr-3 d-flex">
                 <h1>KXI</h1>
                 <div class="ml-auto options d-flex pt-3 pb-3">
-<?php
-if (!isset($_SESSION['userid'])) {
-    ?>
-    <a href="./login.php" class="fas fa-sign-in-alt fa-2x align-self-end  text-decoration-none"></a>
-    <?php
-} else {
-    require './repositories/User.repo.php';
-    $usertype = UserRepository::find($_SESSION['userid'])->getUsertype();
-    $ml = "ml-auto";
-    if (in_array($usertype, array("moderator", "admin"))) {
-        echo "<a href=\"./index.php\" class=\"fas fa-home fa-2x align-self-end text-decoration-none\"></a>";
-        $ml = "ml-3";
-    }
-    echo "<a href=\"./logout.php\" class=\"fas fa-sign-out-alt fa-2x $ml align-self-end text-decoration-none\"></a>";
-
-}
-?>
+                    <a href="./dashboard.php" class="fas fa-sync-alt fa-2x align-self-end text-decoration-none"></a>
+                    <a href="./index.php" class="fas fa-home fa-2x align-self-end ml-3 text-decoration-none"></a>
+                    <a href="./logout.php" class="fas fa-sign-out-alt fa-2x ml-3 align-self-end text-decoration-none"></a>
                 </div>
             </div>
-            <h2>
-                Dashboard
-            </h2>
+            
+            <?php
+
+
+            if(sizeof($auftraege) < 1){
+            echo "<div class=\"mt-5 col-md-12 p-4 vw-100 border bg-light rounded\" style=\"border-color:#bfc0c0;\">
+                <div class=\"p-2 text-center\" style=\"color:#7f7f7f;\">Keine Aufträge</div>
+            </div>";
+            }else {
+            ?>
+            <h2>Dashboard</h2>
             <div class="row row-cols-3  pl-3 pr-3 justify-content-around">
-<?php
-// CONTENT
-include "./incs/dashboard.inc.php";
-?>
+            <table class="table col-12 table-bordered table-hover table-striped table-light">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Benutzername</th>
+                    <th scope="col">Service</th>
+                    <th scope="col">Priorität</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+            foreach ($auftraege as $key => $auftrag) {
+                echo $auftrag->toRow();
+            }
+            ?>
+                </tbody>
+            </table>
             </div>
+            <?php
+
+            }
+            ?>
             <div class="row p-5"></div>
         </div>
     </div>

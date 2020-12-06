@@ -3,9 +3,9 @@ require_once "./repositories/Service.repo.php";
 require_once "./repositories/Priority.repo.php";
 class DB
 {
-    private static $_servername = "localhost";
-    private static $_username = "root";
-    private static $_password = "";
+    private static $_servername = "172.26.0.3";
+    private static $_username = "admin";
+    private static $_password = "admin";
     private static $_name = "modul133";
     private static $_conn = null;
 
