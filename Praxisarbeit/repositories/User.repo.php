@@ -4,14 +4,6 @@ require_once "./repositories/Base.repo.php";
 
 class UserRepository extends BaseRepository
 {
-    public static function create(array $useroptions)
-    {
-        $filename = str_replace("Repository", "", get_called_class()) . "." . __FUNCTION__ . ".sql";
-        return UserRepository::insert(
-            file_get_contents("./sql/statements/$filename"),
-            $useroptions
-        );
-    }
     public static function checkLogin(array $userdata)
     {
         $filename = str_replace("Repository", "", get_called_class()) . "." . __FUNCTION__ . ".sql";

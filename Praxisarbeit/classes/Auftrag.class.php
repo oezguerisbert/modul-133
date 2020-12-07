@@ -80,14 +80,15 @@ class Auftrag
     public function __toString()
     {
         $v = $this->isVisible() ? 0 : 1;
-        $f = $this->isFinished() ? "<button href='#' class='btn btn-primary' disabled>Erledigt</button>" : "<button onclick=\"location.href='./auftrag.php?id={$this->getID()}&m=f'\" class='btn btn-primary'>Erledigt</button>";
+        $replyButton = "<a href='#' data-target='#commentModal' data-toggle='modal' class='btn btn-secondary mr-2'>Kommentieren</a>";
+        $finishButton = $this->isFinished() ? "<button href='#' class='btn btn-primary' disabled>Erledigt</button>" : "<button onclick=\"location.href='./auftrag.php?id={$this->getID()}&m=f'\" class='btn btn-primary'>Erledigt</button>";
         $comments = $this->getComments();
         $kommentare = "";
         if (sizeof($comments) > 0) {
             foreach ($comments as $key => $comment) {
                 $kommentare .= $comment;
             }
-            $kommentare .= "<a href='#' data-target='#commentModal' data-toggle='modal'>Antwort?</a>";
+
         } else {
             $kommentare = "<div class='mt-2 mb-2 col-md-12 p-4 vw-100 border bg-light rounded' style='border-color:#bfc0c0;'>
                 <div class='p-2 text-center' style='color:#7f7f7f;'>Keine Kommentare. <a href='#' data-target='#commentModal' data-toggle='modal'>Hinzufügen?</a></div>
@@ -95,8 +96,8 @@ class Auftrag
         }
         return "<div class='card vw-100'>
         <div class='card-body'>
-          <h5 class='card-title'>{$this->getService()->getTitle()}</h5>
-          <h6 class='card-subtitle mb-2 text-muted'>@{$this->getUser()->getUsername()}{$this->getPriority()}</h6>
+          <h5 class='card-title d-flex'>{$this->getService()->getTitle()}<div class='ml-auto mr-auto'></div><span>Priorität:</span>{$this->getPriority()}</h5>
+          <h6 class='card-subtitle mb-2 text-muted d-flex'>Anfrage von: @{$this->getUser()->getUsername()}</h6>
           <p class='card-text'>{$this->getService()->getDescription()}</p>
           {$kommentare}
           <div class='d-flex w-100 '>
@@ -116,7 +117,7 @@ class Auftrag
           </div>
           <div class='d-flex w-100 mt-4'>
             <div class='ml-auto'></div>
-            {$f}
+            {$replyButton}{$finishButton}
           </div>
         </div>
       </div>";

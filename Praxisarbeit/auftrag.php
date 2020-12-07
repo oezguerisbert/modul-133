@@ -2,7 +2,7 @@
 session_start();
 require_once './repositories/User.repo.php';
 require_once './classes/User.class.php';
-require_once './repositories/Auftraege.repo.php';
+require_once './repositories/Auftrag.repo.php';
 require_once './repositories/Modus.repo.php';
 require_once './repositories/Kommentar.repo.php';
 if (!(isset($_SESSION['userid']) && isset($_GET['id']))) {
@@ -13,14 +13,14 @@ if (!(isset($_SESSION['userid']) && isset($_GET['id']))) {
         header("Location: ./");
     }
     if (isset($_GET['m']) && in_array($_GET['m'], ModusRepository::asArray("kuerzel"))) {
-        AuftraegeRepository::updateModus($_GET['id'], $_GET['m']);
+        AuftragRepository::updateModus($_GET['id'], $_GET['m']);
     }
     if (isset($_GET['v'])) {
         $vMode = $_GET['v'] === "1" ? true : false;
-        AuftraegeRepository::setVisibility($_GET['id'], $vMode);
+        AuftragRepository::setVisibility($_GET['id'], $vMode);
     }
     if (isset($_POST['comment'])) {
-        KommentarRepository::create($_SESSION['userid'], $_GET['id'], $_POST['comment']);
+        KommentarRepository::add($_SESSION['userid'], $_GET['id'], $_POST['comment']);
     }
 }
 
@@ -49,7 +49,7 @@ include './incs/bootstrap.head.inc.php';
             </div>
             <div class="row p-3 pt-5">
                 <?php
-$auftrag = AuftraegeRepository::find($_GET['id']);
+$auftrag = AuftragRepository::find($_GET['id']);
 
 if (!$auftrag) {
     echo "<div class=\"mt-5 col-md-12 p-4 vw-100 border bg-light rounded\" style=\"border-color:#bfc0c0;\">

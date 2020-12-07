@@ -2,7 +2,7 @@
 session_start();
 
 require_once './repositories/User.repo.php';
-require_once './repositories/Auftraege.repo.php';
+require_once './repositories/Auftrag.repo.php';
 require_once './classes/User.class.php';
 if (isset($_SESSION['userid'])) {
     $user = UserRepository::find($_SESSION['userid']);
@@ -13,7 +13,7 @@ if (isset($_SESSION['userid'])) {
     if (!in_array($usertype, User::getSupervisedUsertypes())) {
         header("Location: ./");
     }
-    $auftraege = AuftraegeRepository::findAll();
+    $auftraege = AuftragRepository::findAll();
 
 } else {
     header("Location: ./");
@@ -65,6 +65,7 @@ if (sizeof($auftraege) < 1) {
                 <tbody>
                 <?php
 foreach ($auftraege as $key => $auftrag) {
+        
         echo $auftrag->toRow();
     }
     ?>

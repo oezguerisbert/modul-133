@@ -2,7 +2,6 @@
 require_once "./classes/Kommentar.class.php";
 require_once "./repositories/Base.repo.php";
 
-
 class KommentarRepository extends BaseRepository
 {
 
@@ -17,7 +16,7 @@ class KommentarRepository extends BaseRepository
         return $user;
     }
 
-    public static function create(int $userid, int $auftragid, string $content)
+    public static function add(int $userid, int $auftragid, string $content)
     {
         $filename = str_replace("Repository", "", get_called_class()) . "." . __FUNCTION__ . ".sql";
         return UserRepository::insert(

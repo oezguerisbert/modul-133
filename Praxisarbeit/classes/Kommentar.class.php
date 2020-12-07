@@ -1,6 +1,6 @@
 <?php
 require_once "./repositories/User.repo.php";
-require_once "./repositories/Auftraege.repo.php";
+require_once "./repositories/Auftrag.repo.php";
 class Kommentar
 {
     private $id;
