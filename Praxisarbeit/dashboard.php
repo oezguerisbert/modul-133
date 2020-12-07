@@ -29,7 +29,6 @@ if (isset($_SESSION['userid'])) {
     <?php
 include './incs/bootstrap.head.inc.php';
 ?>
-    <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
     <div class="container">

@@ -49,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     <?php
 include './incs/bootstrap.head.inc.php';
 ?>
-    <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
     <div class="container pt-5">
