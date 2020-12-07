@@ -37,13 +37,38 @@ class DB
     private static function migrate()
     {
         DB::$_migrating = true;
-
         $sqls = array();
-        $sqls[] = file_get_contents("./sql/creates/database.sql");
-        $sqls[] = file_get_contents("./sql/bundle/services.sql");
-        $sqls[] = file_get_contents("./sql/bundle/priorities.sql");
-        $sqls[] = file_get_contents("./sql/bundle/auftrag_modus.sql");
-        $sqls[] = file_get_contents("./sql/bundle/auftraege_und_kommentare.sql");
+
+        foreach (new DirectoryIterator('./sql/creates/') as $file) {
+            if ($file->isDot()) {
+                continue;
+            }
+
+            if ($file->isDir()) {
+                continue;
+            }
+
+            $sqls[] = file_get_contents($file->getPath() . "/" . $file->getFilename());
+        }
+
+        foreach (new DirectoryIterator('./sql/bundle/') as $file) {
+            if ($file->isDot()) {
+                continue;
+            }
+
+            if ($file->isDir()) {
+                continue;
+            }
+            $sqls[] = file_get_contents($file->getPath() . "/" . $file->getFilename());
+        }
+
+        // $sqls[] = file_get_contents("./sql/creates/database.sql");
+        // $sqls[] = file_get_contents("./sql/bundle/services.sql");
+        // $sqls[] = file_get_contents("./sql/bundle/priorities.sql");
+        // $sqls[] = file_get_contents("./sql/bundle/auftrag_modus.sql");
+        // $sqls[] = file_get_contents("./sql/bundle/auftraege_und_kommentare.sql");
+        // if(file_exists("./sql/bundle/users.sql"))
+        // $sqls[] = file_get_contents("./sql/bundle/users.sql");
         $result = true;
         foreach ($sqls as $key => $sql) {
             $c = DB::connection();
@@ -69,17 +94,28 @@ class DB
     {
         return DB::stmt($sql)->execute($array);
     }
-
-    public static function addService(array $information)
+    public static function findAll()
     {
-        return DB::insert(
-            "INSERT INTO kxi_auftraege(prioid, serviceid, userid)
-            VALUE(:prioid, :serviceid, :uid)",
-            array(
-                "serviceid" => ServiceRepository::findByKuerzel($information['service'])->getID(),
-                "prioid" => PriorityRepository::findByKuerzel($information['priority'])->getID(),
-                "uid" => $information['userid'])
-        );
+        $filename = str_replace("Repository", "", get_called_class()) . "." . __FUNCTION__ . ".sql";
+        $stmt = ServiceRepository::stmt(file_get_contents("./sql/statements/$filename"));
+        $stmt->setFetchMode(PDO::FETCH_CLASS, str_replace("Repository", "", get_called_class()));
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
-
+    public static function find(int $id)
+    {
+        $filename = str_replace("Repository", "", get_called_class()) . "." . __FUNCTION__ . ".sql";
+        $stmt = ServiceRepository::stmt(file_get_contents("./sql/statements/$filename"));
+        $stmt->setFetchMode(PDO::FETCH_CLASS, str_replace("Repository", "", get_called_class()));
+        $stmt->execute(array("id" => $id));
+        return $stmt->fetch();
+    }
+    public static function findByKuerzel(string $kuerzel)
+    {
+        $filename = str_replace("Repository", "", get_called_class()) . "." . __FUNCTION__ . ".sql";
+        $stmt = ServiceRepository::stmt(file_get_contents("./sql/statements/$filename"));
+        $stmt->setFetchMode(PDO::FETCH_CLASS, str_replace("Repository", "", get_called_class()));
+        $stmt->execute(array("kuerzel" => $kuerzel));
+        return $stmt->fetch();
+    }
 }

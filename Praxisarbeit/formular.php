@@ -15,7 +15,7 @@ if (isset($_SESSION['userid'])) {
         $prio = $_POST['prio'];
         $errors = checkInput(array("priority" => $prio));
         if (sizeof($errors) === 0) {
-            $db_result = DB::addService(array("userid" => $_SESSION['userid'], "service" => strtolower($service), "priority" => $prio));
+            $db_result = ServiceRepository::add(array("userid" => $_SESSION['userid'], "service" => strtolower($service), "priority" => $prio));
             $db_query_result = $db_result ? "success" : "warning";
         }
     }

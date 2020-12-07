@@ -30,56 +30,65 @@ class Auftrag
         return ServiceRepository::find($this->serviceid);
     }
 
-    public function getMode() {
+    public function getMode()
+    {
         return ModusRepository::find($this->modeid);
     }
 
-    public function getModeAsKuerzel() {
+    public function getModeAsKuerzel()
+    {
         return ModusRepository::find($this->modeid)->getKuerzel();
     }
 
-    public function isNew() {
+    public function isNew()
+    {
         return ModusRepository::find($this->modeid)->getKuerzel() === "n";
     }
 
-    public function isDeclined() {
+    public function isDeclined()
+    {
         return ModusRepository::find($this->modeid)->getKuerzel() === "c";
     }
-    public function isHidden() {
+    public function isHidden()
+    {
         return !$this->isVisible();
     }
-    public function isAccepted() {
+    public function isAccepted()
+    {
         return ModusRepository::find($this->modeid)->getKuerzel() === "a";
     }
-    public function getComments(){
-        $comments = KommentarRepository::findAll($this->getID());
-        
-        
+    public function getComments()
+    {
+        $comments = KommentarRepository::findAllByID($this->getID());
+
         return $comments;
     }
 
-    public function isFinished() {
+    public function isFinished()
+    {
         return ModusRepository::find($this->modeid)->getKuerzel() === "f";
     }
-    public function getVisibleIcon(){
-        return "fa-eye".($this->isVisible() ? "-slash" : "");
+    public function getVisibleIcon()
+    {
+        return "fa-eye" . ($this->isVisible() ? "-slash" : "");
     }
     public function isVisible()
     {
         return $this->visible;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         $v = $this->isVisible() ? 0 : 1;
         $f = $this->isFinished() ? "<button href='#' class='btn btn-primary' disabled>Erledigt</button>" : "<button onclick=\"location.href='./auftrag.php?id={$this->getID()}&m=f'\" class='btn btn-primary'>Erledigt</button>";
         $comments = $this->getComments();
         $kommentare = "";
-        if(sizeof($comments) > 0){
+        if (sizeof($comments) > 0) {
             foreach ($comments as $key => $comment) {
                 $kommentare .= $comment;
             }
             $kommentare .= "<a href='#' data-target='#commentModal' data-toggle='modal'>Antwort?</a>";
-        }else {
+        } else {
             $kommentare = "<div class='mt-2 mb-2 col-md-12 p-4 vw-100 border bg-light rounded' style='border-color:#bfc0c0;'>
                 <div class='p-2 text-center' style='color:#7f7f7f;'>Keine Kommentare. <a href='#' data-target='#commentModal' data-toggle='modal'>Hinzufügen?</a></div>
             </div>";
@@ -92,18 +101,18 @@ class Auftrag
           {$kommentare}
           <div class='d-flex w-100 '>
             <div class='ml-auto'></div>
-            ".
+            " .
             ($this->isNew() ?
-                "<a href='auftrag.php?id={$this->getID()}&m=c' class='fa fa-ban ml-2 text-danger text-decoration-none'></a>
+            "<a href='auftrag.php?id={$this->getID()}&m=c' class='fa fa-ban ml-2 text-danger text-decoration-none'></a>
                 <a href='auftrag.php?id={$this->getID()}&m=e' class='fa fa-check ml-2 text-success text-decoration-none'></a>"
-                    :
-                    "<a href='auftrag.php?id={$this->getID()}&v={$v}' class='fa {$this->getVisibleIcon()} ml-auto text-secondary text-decoration-none'></a>".
-                    ($this->isDeclined() ?
-                        "<div class='fa fa-ban ml-2 text-danger text-decoration-none'></div>"
-                            :
-                        "<div class='fa fa-check ml-2 text-success text-decoration-none'></div>"
-                    )
-            )."
+            :
+            "<a href='auftrag.php?id={$this->getID()}&v={$v}' class='fa {$this->getVisibleIcon()} ml-auto text-secondary text-decoration-none'></a>" .
+            ($this->isDeclined() ?
+                "<div class='fa fa-ban ml-2 text-danger text-decoration-none'></div>"
+                :
+                "<div class='fa fa-check ml-2 text-success text-decoration-none'></div>"
+            )
+        ) . "
           </div>
           <div class='d-flex w-100 mt-4'>
             <div class='ml-auto'></div>
