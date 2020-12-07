@@ -18,7 +18,7 @@ if (isset($_SESSION['userid'])) {
 }
 function printAuftraege()
 {
-
+    global $auftraege;
     foreach ($auftraege as $key => $auftrag) {
 
         echo $auftrag->toRow();
