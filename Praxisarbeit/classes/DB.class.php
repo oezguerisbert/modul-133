@@ -1,5 +1,5 @@
 <?php
-if(!isset($_SESSION)){
+if (!isset($_SESSION)) {
     session_start();
 }
 class DB
@@ -75,14 +75,6 @@ class DB
             }
             $sqls[] = file_get_contents($file->getPath() . "/" . $file->getFilename());
         }
-
-        // $sqls[] = file_get_contents("./sql/creates/database.sql");
-        // $sqls[] = file_get_contents("./sql/bundle/services.sql");
-        // $sqls[] = file_get_contents("./sql/bundle/priorities.sql");
-        // $sqls[] = file_get_contents("./sql/bundle/auftrag_modus.sql");
-        // $sqls[] = file_get_contents("./sql/bundle/auftraege_und_kommentare.sql");
-        // if(file_exists("./sql/bundle/users.sql"))
-        // $sqls[] = file_get_contents("./sql/bundle/users.sql");
         $result = true;
         foreach ($sqls as $key => $sql) {
             $c = DB::connection();
