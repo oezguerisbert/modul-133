@@ -1,8 +1,8 @@
 <?php
+require_once "./repositories/Base.repo.php";
 require_once "./classes/Priority.class.php";
-require_once "./classes/DB.class.php";
 
-class PriorityRepository extends DB
+class PriorityRepository extends BaseRepository
 {
     private static $fetch_class = 'Priority';
     public static function findAll()

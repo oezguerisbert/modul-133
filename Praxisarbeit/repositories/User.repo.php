@@ -1,8 +1,8 @@
 <?php
 require_once "./classes/User.class.php";
-require_once "./classes/DB.class.php";
+require_once "./repositories/Base.repo.php";
 
-class UserRepository extends DB
+class UserRepository extends BaseRepository
 {
     public static function create(array $useroptions)
     {

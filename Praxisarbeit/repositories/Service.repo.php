@@ -1,9 +1,9 @@
 <?php
 require_once './repositories/Priority.repo.php';
 require_once "./classes/Service.class.php";
-require_once "./classes/DB.class.php";
+require_once "./repositories/Base.repo.php";
 
-class ServiceRepository extends DB
+class ServiceRepository extends BaseRepository
 {
     public static function add(array $information)
     {

@@ -1,8 +1,9 @@
 <?php
 require_once "./classes/Modus.class.php";
-require_once "./classes/DB.class.php";
+require_once "./repositories/Base.repo.php";
 
-class ModusRepository extends DB
+
+class ModusRepository extends BaseRepository
 {
     public static function asArray(string $filter = "")
     {

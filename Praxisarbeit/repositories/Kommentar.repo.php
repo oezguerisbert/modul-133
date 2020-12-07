@@ -1,8 +1,9 @@
 <?php
 require_once "./classes/Kommentar.class.php";
-require_once "./classes/DB.class.php";
+require_once "./repositories/Base.repo.php";
 
-class KommentarRepository extends DB
+
+class KommentarRepository extends BaseRepository
 {
 
     public static function findAllByID(int $auftragid)

@@ -1,10 +1,9 @@
 <?php
 require_once "./classes/Auftrag.class.php";
 require_once "./classes/Modus.class.php";
-require_once "./repositories/Modus.repo.php";
-require_once "./classes/DB.class.php";
+require_once "./repositories/Base.repo.php";
 
-class AuftraegeRepository extends DB
+class AuftraegeRepository extends BaseRepository
 {
     private static $fetch_class = 'Auftrag';
     public static function findAll()
@@ -28,12 +27,14 @@ class AuftraegeRepository extends DB
         $stmt->execute(array("id" => $id, "value" => $value));
         return $stmt->fetch();
     }
-    public static function setVisibility(int $id, bool $b){
+    public static function setVisibility(int $id, bool $b)
+    {
         return AuftraegeRepository::update($id, "visible", $b ? 1 : 0);
     }
-    public static function updateModus(int $id, string $modus){
+    public static function updateModus(int $id, string $modus)
+    {
         $modus = ModusRepository::findByKuerzel($modus);
-        if(!$modus) {
+        if (!$modus) {
             return false;
         }
         return AuftraegeRepository::update($id, "modeid", $modus->getID());

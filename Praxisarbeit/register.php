@@ -1,11 +1,10 @@
 <?php
 session_start();
-// include_once './incs/createUsers.func.inc.php';
 include_once './incs/createInput.func.inc.php';
 include_once './incs/checkInput.func.inc.php';
 include_once './incs/createAlert.func.inc.php';
 include_once './repositories/User.repo.php';
-// $users = DB::getUsers();
+
 $data = array(
     "username" => null,
     "vorname" => null,

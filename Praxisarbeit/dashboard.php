@@ -1,11 +1,12 @@
 <?php
 session_start();
+
 require_once './repositories/User.repo.php';
-require_once './classes/User.class.php';
 require_once './repositories/Auftraege.repo.php';
-if(isset($_SESSION['userid'])){
+require_once './classes/User.class.php';
+if (isset($_SESSION['userid'])) {
     $user = UserRepository::find($_SESSION['userid']);
-    if(!$user){
+    if (!$user) {
         header("Location: ./login.php");
     }
     $usertype = $user->getUsertype();
@@ -14,7 +15,7 @@ if(isset($_SESSION['userid'])){
     }
     $auftraege = AuftraegeRepository::findAll();
 
-}else {
+} else {
     header("Location: ./");
 }
 ?>
@@ -41,16 +42,15 @@ include './incs/bootstrap.head.inc.php';
                     <a href="./logout.php" class="fas fa-sign-out-alt fa-2x ml-3 align-self-end text-decoration-none"></a>
                 </div>
             </div>
-            
+
             <?php
 
-
-            if(sizeof($auftraege) < 1){
-            echo "<div class=\"mt-5 col-md-12 p-4 vw-100 border bg-light rounded\" style=\"border-color:#bfc0c0;\">
+if (sizeof($auftraege) < 1) {
+    echo "<div class=\"mt-5 col-md-12 p-4 vw-100 border bg-light rounded\" style=\"border-color:#bfc0c0;\">
                 <div class=\"p-2 text-center\" style=\"color:#7f7f7f;\">Keine Aufträge</div>
             </div>";
-            }else {
-            ?>
+} else {
+    ?>
             <h2>Dashboard</h2>
             <div class="row row-cols-3  pl-3 pr-3 justify-content-around">
             <table class="table col-12 table-bordered table-hover table-striped table-light">
@@ -64,17 +64,17 @@ include './incs/bootstrap.head.inc.php';
                 </thead>
                 <tbody>
                 <?php
-            foreach ($auftraege as $key => $auftrag) {
-                echo $auftrag->toRow();
-            }
-            ?>
+foreach ($auftraege as $key => $auftrag) {
+        echo $auftrag->toRow();
+    }
+    ?>
                 </tbody>
             </table>
             </div>
             <?php
 
-            }
-            ?>
+}
+?>
             <div class="row p-5"></div>
         </div>
     </div>
