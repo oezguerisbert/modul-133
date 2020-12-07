@@ -18,7 +18,6 @@ $background = "https://images.unsplash.com/photo-1486072889922-9aea1fc0a34d?ixli
     <?php
 include './incs/bootstrap.head.inc.php';
 ?>
-    <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
     <div class="container">
@@ -33,7 +32,7 @@ if (!isset($_SESSION['userid'])) {
     <?php
 } else {
     $user = UserRepository::find($_SESSION['userid']);
-    if($user){
+    if ($user) {
         $usertype = $user->getUsertype();
         $ml = "ml-auto";
         if (in_array($usertype, User::getSupervisedUsertypes())) {
@@ -41,10 +40,9 @@ if (!isset($_SESSION['userid'])) {
             $ml = "ml-3";
         }
         echo "<a href=\"./logout.php\" class=\"fas fa-sign-out-alt fa-2x $ml align-self-end text-decoration-none\"></a>";
-    }else {
+    } else {
         echo "<a href=\"./login.php\" class=\"fas fa-sign-in-alt fa-2x align-self-end text-decoration-none\"></a>";
     }
-    
 
 }
 ?>

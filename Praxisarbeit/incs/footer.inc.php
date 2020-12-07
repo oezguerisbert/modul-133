@@ -1,4 +1,4 @@
-<footer class="page-footer font-small blue pt-4 rounded mb-4">
+<footer class="page-footer font-small blue pt-4 rounded mb-4 bg-primary text-light">
   <div class="container-fluid text-center text-md-left">
     <div class="row">
       <div class="col-md-6 mt-md-0 mt-3">
@@ -14,10 +14,10 @@
         <h5 class="text-uppercase">Socials</h5>
         <ul class="list-unstyled">
           <li>
-            <a href="#!">🐤Twitter</a>
+            <a href="#!" class="text-light">🐤Twitter</a>
           </li>
           <li>
-            <a href="#!">💻Facebook</a>
+            <a href="#!" class="text-light">💻Facebook</a>
           </li>
         </ul>
       </div>
@@ -25,10 +25,10 @@
         <h5 class="text-uppercase">Kontakt</h5>
         <ul class="list-unstyled">
           <li>
-            <a href="#!">🗺 Google Maps</a>
+            <a href="#!" class="text-light">🗺 Google Maps</a>
           </li>
           <li>
-            <a href="#!">⛷ SkiRegister</a>
+            <a href="#!" class="text-light">⛷ SkiRegister</a>
           </li>
           <li>📞 +41 1234 56 78</li>
         </ul>
