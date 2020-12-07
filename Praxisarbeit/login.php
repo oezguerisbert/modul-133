@@ -71,7 +71,7 @@ if (isset($data_errors) && sizeof($data_errors) > 0) {
 if (isset($login_blocked) && !$login_blocked) {
     ?>
 <div class="col">
-<form class="col align-items-center" action="login.php" method="POST">
+<form class="col align-items-center" action="login.php<?=($_GET['redirect'] ? "?redirect=" . $_GET['redirect'] : "")?> " method="POST">
     <?=createInput("username", $_POST['username'] ?? "", "text", null, true);?>
     <?=createInput("password", $_POST['password'] ?? "", "password", null, true);?>
     <div class="col d-flex p-0">

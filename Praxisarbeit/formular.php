@@ -20,7 +20,7 @@ if (isset($_SESSION['userid'])) {
         }
     }
 } else {
-    header("Location: ../login.php?redirect=" . "formular/?service=$service");
+    header("Location: ./login.php?redirect=" . "formular.php?service=$service");
 }
 
 ?>

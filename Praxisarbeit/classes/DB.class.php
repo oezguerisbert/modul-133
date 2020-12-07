@@ -1,11 +1,15 @@
 <?php
+if(!isset($_SESSION)){
+    session_start();
+}
 class DB
 {
     private static $_servername = "localhost";
     private static $_username = "root";
-    private static $_password = "";
-    private static $_name = "modul133";
+    private static $_password = "root";
+    private static $_name = "mytable";
     private static $_conn = null;
+    private static $_port = 3306;
     private static $_migrated = false;
     private static $_migrating = false;
 
@@ -16,14 +20,26 @@ class DB
     {
         if (DB::$_conn === null) {
             try {
-                $_conn = new PDO("mysql:host=" . DB::$_servername . ";port=3306;dbname=" . DB::$_name . "", DB::$_username, DB::$_password);
+                $configFile = "./config.json";
+                if (file_exists($configFile)) {
+                    $config = file_get_contents("./config.json");
+                    $json = json_decode($config, true);
+                    $db = $json['database'];
+                    DB::$_servername = $db['host'];
+                    DB::$_port = $db['port'];
+                    DB::$_username = $db['user'];
+                    DB::$_password = $db['password'];
+                    DB::$_name = $db['dbname'];
+                }
+                $_conn = new PDO("mysql:host=" . DB::$_servername . ";port=" . DB::$_port . ";dbname=" . DB::$_name . "", DB::$_username, DB::$_password);
                 // set the PDO error mode to exception
                 $_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $_conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
                 DB::$_conn = $_conn;
-                if (!file_exists("./migration.lock")) {
+                if (!file_exists("./migration.lock") && (isset($config) && ($db['migrate'] ?? true))) {
                     DB::$_migrated = DB::migrate();
                     fclose(fopen("./migration.lock", "a+"));
+                    session_destroy();
                 }
             } catch (PDOException $e) {
                 echo "Connection failed: " . $e->getMessage();
