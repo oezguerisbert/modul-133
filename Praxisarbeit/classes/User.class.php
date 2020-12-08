@@ -8,6 +8,7 @@ class User
     private $email;
     private $phone;
     private $usertype = "user";
+    private $createdAt;
 
     public function getID()
     {
@@ -37,10 +38,16 @@ class User
     {
         return $this->usertype;
     }
-    public static function getUsertypes(){
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+    public static function getUsertypes()
+    {
         return array("user", "admin", "moderator");
     }
-    public static function getSupervisedUsertypes(){
+    public static function getSupervisedUsertypes()
+    {
         return array("admin", "moderator");
     }
 }

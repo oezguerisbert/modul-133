@@ -14,9 +14,9 @@ function createCard(string $imageLink, string $title, string $description = "", 
         <div class='col p-2'>
             <div class='card shadow-md'>
                 <img src='$imageLink' class='card-img-top'>
-                <div class='card-body' style='height:180px;'>
+                <div class='card-body' style='min-height:180px;height:auto;'>
                     <h5 class='card-title'>$title</h5>
-                    <p class='card-text' style='height:50px;'>$description</p>
+                    <p class='card-text' style='height:auto;min-height:50px;'>$description</p>
                     <div class='d-flex'>
                         <div class='ml-auto mr-auto'></div>
                         <a href='./formular.php?service=$cardLink' class='btn btn-primary align-self-end'>$buttonText</a>
